@@ -77,9 +77,30 @@ async function distroyAirplane(req,res){
         SuccessResponse.data=airplane;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     }catch(error){
-        ErrorReaponse.message='Something went wrong while get airplane';
+        ErrorReaponse.message='Something went wrong while distroy airplane';
         ErrorReaponse.error=error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
 }
-module.exports={createAirplane,getAirplanes,getAirplane,distroyAirplane}
+
+/**
+ * post:/airplanes/:id
+ * req-body{
+ * capacity:200
+ * }
+ */
+
+async function updateAirplane(req,res){
+    
+    try{
+        const airplane= await AirplaneService.updateAirplane(req.params.id,{capacity:req.body.capacity});
+        SuccessResponse.message='successfully update airplane';
+        SuccessResponse.data=await AirplaneService.getAirplane(req.params.id);
+        return res.status(StatusCodes.CREATED).json(SuccessResponse)
+    }catch(error){
+        ErrorReaponse.message='Something went wrong while update airplane';
+        ErrorReaponse.error=error;
+        return res.status(error.statusCode).json(ErrorReaponse);
+    }
+}
+module.exports={createAirplane,getAirplanes,getAirplane,distroyAirplane,updateAirplane}
