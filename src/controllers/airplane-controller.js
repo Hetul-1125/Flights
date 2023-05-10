@@ -63,4 +63,23 @@ async function getAirplane(req,res){
         return res.status(error.statusCode).json(ErrorReaponse);
     }
 }
-module.exports={createAirplane,getAirplanes,getAirplane}
+
+/**
+ * post:/airplanes/:id
+ * req-body{}
+ */
+
+async function distroyAirplane(req,res){
+    
+    try{
+        const airplane= await AirplaneService.destroyAirplane(req.params.id);
+        SuccessResponse.message='successfully distroy airplane';
+        SuccessResponse.data=airplane;
+        return res.status(StatusCodes.CREATED).json(SuccessResponse)
+    }catch(error){
+        ErrorReaponse.message='Something went wrong while get airplane';
+        ErrorReaponse.error=error;
+        return res.status(error.statusCode).json(ErrorReaponse);
+    }
+}
+module.exports={createAirplane,getAirplanes,getAirplane,distroyAirplane}

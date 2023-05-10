@@ -20,4 +20,8 @@ router.get('/',
 router.post('/:id', 
         AirplaneController.getAirplane);
 
+// api/v1/airplanes/:id POST
+router.delete('/:id', 
+        AirplaneController.distroyAirplane);
+
 module.exports = router

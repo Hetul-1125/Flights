@@ -20,6 +20,10 @@ class CrudRepositry {
                 id:data,
               }
         });
+        if(!response)
+        {
+            throw new AppError('Note able to find resourse',StatusCodes.NOT_FOUND);
+        }
 
         return response;
     }

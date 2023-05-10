@@ -46,9 +46,9 @@ async function getAirplanes(){
     }
 }
 
-async function getAirplane(data){
+async function getAirplane(id){
     try{
-        const airplane=await airplaneRepositry.get(data);
+        const airplane=await airplaneRepositry.get(id);
         return airplane;
     }catch(error)
     { 
@@ -70,4 +70,28 @@ async function getAirplane(data){
         throw error;
     }
 }
-module.exports={createAirplane,getAirplanes,getAirplane};
+async function destroyAirplane(id){
+    try{
+        const airplane=await airplaneRepositry.destroy(id);
+        return airplane;
+    }catch(error)
+    { 
+        if(error.name=="TypeError")
+        {
+           throw new AppError('Can not distroy Airplane',StatusCodes.INTERNAL_SERVER_ERROR);
+        }
+        else if(error.name=='SequelizeValidationError')
+        {
+            let expanation=[];
+            error.errors.forEach(err => {
+                expanation.push(err.message);
+            });
+            throw new AppError(expanation,StatusCodes.BAD_REQUEST);
+        }else if(error.statusCode==StatusCodes.NOT_FOUND)
+        {
+            throw new AppError('The airplane request is not present',error.statusCode);
+        }
+        throw error;
+    }
+}
+module.exports={createAirplane,getAirplanes,getAirplane,destroyAirplane};
