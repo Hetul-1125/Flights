@@ -10,7 +10,9 @@ const { SuccessResponse, ErrorReaponse } = require('../util/common');
         }
  */
 async function createAirplane(req,res){
-    
+    console.log('create plane call')
+    console.log(req.body.modelNumber);
+    console.log(req.body.capacity);
     try{
         const airplane= await AirplaneService.createAirplane({
             
@@ -33,16 +35,21 @@ async function createAirplane(req,res){
  */
 async function getAirplanes(req,res){
     
-    try{
-        const airplane= await AirplaneService.getAirplanes();
-        SuccessResponse.message='successfully get airplanes';
-        SuccessResponse.data=airplane;
-        return res.status(StatusCodes.CREATED).json(SuccessResponse)
-    }catch(error){
-        ErrorReaponse.message='Something went wrong while get airplanes';
-        ErrorReaponse.error=error;
-        return res.status(error.statusCode).json(ErrorReaponse);
-    }
+   try {
+    const airplanes = await AirplaneService.getAirplanes();
+    SuccessResponse.data = airplanes;
+    return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse);
+} catch(error) {
+    ErrorReaponse.message='Something went wrong while get airplane';
+    ErrorReaponse.error=error;
+    console.log("Error response");
+    console.log(ErrorReaponse);
+    return res
+            .status(error.statusCode)
+            .json(ErrorReaponse);
+}
 }
 
 /**
@@ -103,4 +110,5 @@ async function updateAirplane(req,res){
         return res.status(error.statusCode).json(ErrorReaponse);
     }
 }
+
 module.exports={createAirplane,getAirplanes,getAirplane,distroyAirplane,updateAirplane}

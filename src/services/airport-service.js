@@ -1,17 +1,15 @@
-const { AirplaneRepositry } = require('../repositary')
+const {AirportRepositry} = require('../repositary')
 const { AppError } = require('../util/error/app-error');
 const { StatusCodes } = require('http-status-codes')
-const airplaneRepositry = new AirplaneRepositry();
+const airportRepositry = new AirportRepositry();
 
-async function createAirplane(data) {
-    console.log('create service');
-    console.log(data);
+async function createAirport(data) {
     try {
-        const airplane = await airplaneRepositry.create(data);
+        const airplane = await airportRepositry.create(data);
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
-            throw new AppError('Can not create a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
+            throw new AppError('Can not create a new Airport object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
         else if (error.name == 'SequelizeValidationError') {
             let expanation = [];
@@ -23,13 +21,13 @@ async function createAirplane(data) {
         throw error;
     }
 }
-async function getAirplanes() {
+async function getAirports() {
     try {
-        const airplane = await airplaneRepositry.getAll();
+        const airplane = await airportRepositry.getAll();
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
-            throw new AppError('Can not create a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
+            throw new AppError('Can not create a new Airport object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
         else if (error.name == 'SequelizeValidationError') {
             let expanation = [];
@@ -42,13 +40,13 @@ async function getAirplanes() {
     }
 }
 
-async function getAirplane(id) {
+async function getAirport(id) {
     try {
-        const airplane = await airplaneRepositry.get(id);
+        const airplane = await airportRepositry.get(id);
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
-            throw new AppError('Can not create a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
+            throw new AppError('Can not create a new Airport object', StatusCodes.INTERNAL_SERVER_ERROR);
         }
         else if (error.name == 'SequelizeValidationError') {
             let expanation = [];
@@ -57,18 +55,18 @@ async function getAirplane(id) {
             });
             throw new AppError(expanation, StatusCodes.BAD_REQUEST);
         } else if (error.statusCode == StatusCodes.NOT_FOUND) {
-            throw new AppError('The airplane request is not present', error.statusCode);
+            throw new AppError('The airport request is not present', error.statusCode);
         }
         throw error;
     }
 }
-async function destroyAirplane(id) {
+async function destroyAirport(id) {
     try {
-        const airplane = await airplaneRepositry.destroy(id);
+        const airplane = await airportRepositry.destroy(id);
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
-            throw new AppError('Can not distroy Airplane', StatusCodes.INTERNAL_SERVER_ERROR);
+            throw new AppError('Can not distroy Airport', StatusCodes.INTERNAL_SERVER_ERROR);
         }
         else if (error.name == 'SequelizeValidationError') {
             let expanation = [];
@@ -77,18 +75,18 @@ async function destroyAirplane(id) {
             });
             throw new AppError(expanation, StatusCodes.BAD_REQUEST);
         } else if (error.statusCode == StatusCodes.NOT_FOUND) {
-            throw new AppError('The airplane request is not present', error.statusCode);
+            throw new AppError('The airport request is not present', error.statusCode);
         }
         throw error;
     }
 }
-async function updateAirplane(id, data) {
+async function updateAirport(id, data) {
     try {
-        const airplane = await airplaneRepositry.update(id, data);
+        const airplane = await airportRepositry.update(id, data);
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
-            throw new AppError('Can not distroy Airplane', StatusCodes.INTERNAL_SERVER_ERROR);
+            throw new AppError('Can not distroy Airport', StatusCodes.INTERNAL_SERVER_ERROR);
         }
         else if (error.name == 'SequelizeValidationError') {
             let expanation = [];
@@ -97,9 +95,9 @@ async function updateAirplane(id, data) {
             });
             throw new AppError(expanation, StatusCodes.BAD_REQUEST);
         } else if (error.statusCode == StatusCodes.NOT_FOUND) {
-            throw new AppError('The airplane request is not present', error.statusCode);
+            throw new AppError('The airport request is not present', error.statusCode);
         }
         throw error;
     }
 }
-module.exports = {createAirplane, getAirplanes, getAirplane, destroyAirplane,updateAirplane};
+module.exports = { createAirport, getAirports, getAirport, destroyAirport,updateAirport};

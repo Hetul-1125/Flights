@@ -88,4 +88,17 @@ async function getCities(){
         throw error;
     }
 }
-module.exports={createCity,distroyCity,updateCity,getCities}
+async function getcity(id){
+    try{
+        const city=cityRepositry.get(id);
+        console.log("city-------"+city);
+        return city;
+
+    }catch(error){
+        if(error.statusCode==StatusCodes.NOT_FOUND)
+        {
+            throw AppError('The Airplane request not present',error.statusCode);
+        }
+    }
+}
+module.exports={createCity,distroyCity,updateCity,getCities,getcity}

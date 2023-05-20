@@ -88,4 +88,19 @@ async function getCities(req,res){
     }
 
 }
-module.exports={createCity,distroyCity,updateCity,getCities}
+
+async function getCity(req,res){
+    try{
+        const city=await CityService.getcity(req.params.id);
+        SuccessResponse.message='Successfully get a city';
+        SuccessResponse.data=city;
+        return res.status(StatusCodes.CREATED).json(SuccessResponse);
+
+    }catch(error){
+        ErrorReaponse.message='Somethig went wrong while get city'
+        ErrorReaponse.error=error;
+        return res.status(error.statusCode).json(ErrorReaponse);
+    }
+
+}
+module.exports={createCity,distroyCity,updateCity,getCities,getCity}

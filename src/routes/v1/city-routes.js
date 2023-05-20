@@ -16,9 +16,12 @@ router.delete('/:id',
 router.patch('/:id',
             CityController.updateCity);
 
-// api/v1/city/:id POST
+// api/v1/city/ POST
 router.get('/',
             CityController.getCities);
+// api/v1/city/:id POST
+router.get('/:id',
+            CityController.getCity);
 
 
 

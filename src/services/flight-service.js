@@ -1,13 +1,10 @@
-const { AirplaneRepositry } = require('../repositary')
+const { FlightsRepositry } = require('../repositary')
 const { AppError } = require('../util/error/app-error');
 const { StatusCodes } = require('http-status-codes')
-const airplaneRepositry = new AirplaneRepositry();
-
-async function createAirplane(data) {
-    console.log('create service');
-    console.log(data);
+const flightRepositary = new FlightsRepositry();
+async function createFlight(data) {
     try {
-        const airplane = await airplaneRepositry.create(data);
+        const airplane = await flightRepositary.create(data);
         return airplane;
     } catch (error) {
         if (error.name == "TypeError") {
@@ -23,10 +20,10 @@ async function createAirplane(data) {
         throw error;
     }
 }
-async function getAirplanes() {
+async function getFlights() {
     try {
-        const airplane = await airplaneRepositry.getAll();
-        return airplane;
+        const flight = await flightRepositary.getAll();
+        return flight;
     } catch (error) {
         if (error.name == "TypeError") {
             throw new AppError('Can not create a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -42,10 +39,10 @@ async function getAirplanes() {
     }
 }
 
-async function getAirplane(id) {
+async function getFlight(id) {
     try {
-        const airplane = await airplaneRepositry.get(id);
-        return airplane;
+        const flight = await flightRepositary.get(id);
+        return flight;
     } catch (error) {
         if (error.name == "TypeError") {
             throw new AppError('Can not create a new Airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -62,10 +59,10 @@ async function getAirplane(id) {
         throw error;
     }
 }
-async function destroyAirplane(id) {
+async function destroyFlight(id) {
     try {
-        const airplane = await airplaneRepositry.destroy(id);
-        return airplane;
+        const flight = await flightRepositary.destroy(id);
+        return flight;
     } catch (error) {
         if (error.name == "TypeError") {
             throw new AppError('Can not distroy Airplane', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -82,10 +79,10 @@ async function destroyAirplane(id) {
         throw error;
     }
 }
-async function updateAirplane(id, data) {
+async function updateFlight(id, data) {
     try {
-        const airplane = await airplaneRepositry.update(id, data);
-        return airplane;
+        const flight = await flightRepositary.update(id, data);
+        return flight;
     } catch (error) {
         if (error.name == "TypeError") {
             throw new AppError('Can not distroy Airplane', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -102,4 +99,4 @@ async function updateAirplane(id, data) {
         throw error;
     }
 }
-module.exports = {createAirplane, getAirplanes, getAirplane, destroyAirplane,updateAirplane};
+module.exports = {createFlight,getFlights,getFlight,destroyFlight,updateFlight};
