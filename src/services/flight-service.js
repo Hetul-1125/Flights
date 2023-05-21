@@ -1,8 +1,13 @@
 const { FlightsRepositry } = require('../repositary')
 const { AppError } = require('../util/error/app-error');
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes } = require('http-status-codes');
+const {compareTime}=require('../util/helpers/datetime-helper')
 const flightRepositary = new FlightsRepositry();
 async function createFlight(data) {
+      console.log('data----------------------',data.arrivalTime); 
+      if(!compareTime(data.arrivalTime,data.departureTime)){
+        throw new AppError('ArrivalTime is grater than departureTime so Enter correct Time',StatusCodes.BAD_REQUEST);
+      }
     try {
         const airplane = await flightRepositary.create(data);
         return airplane;
@@ -35,6 +40,7 @@ async function getFlights() {
             });
             throw new AppError(expanation, StatusCodes.BAD_REQUEST);
         }
+        console.log('airport service  error---------------------'+error);
         throw error;
     }
 }

@@ -12,17 +12,24 @@ const { SuccessResponse, ErrorReaponse } = require('../util/common');
 async function createFlight(req, res) {
 
     try {
-        const airport = await FlightService.createFlight({
-            name: req.body.name,
-            code: req.body.code,
-            address: req.body.address,
-            cityId: req.body.cityId,
+        const Flight = await FlightService.createFlight({
+          flightNumber:req.body.flightNumber,
+          airplaneId:req.body.airplaneId,
+          departureAirportId:req.body.departureAirportId,
+          arrivalAirportId:req.body.arrivalAirportId,
+          arrivalTime:req.body.arrivalTime,
+          departureTime:req.body.departureTime,
+          price:req.body.price,
+          boardingGate:req.body.boardingGate,
+          totalSeats:req.body.totalSeats,
+
         })
-        SuccessResponse.message = 'successfully create an airport';
-        SuccessResponse.data = airport;
+        SuccessResponse.message = 'successfully create an Flight';
+        SuccessResponse.data = Flight;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     } catch (error) {
-        ErrorReaponse.message = 'Something went wrong while create airport';
+        console.log('error----------------------',error);
+        ErrorReaponse.message = 'Something went wrong while create Flight';
         ErrorReaponse.error = error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
@@ -35,14 +42,14 @@ async function createFlight(req, res) {
 async function getFlights(req, res) {
 
     try {
-        const airport = await FlightService.getFlights();
-        console.log('airports---------'+airport);
-        SuccessResponse.message = 'successfully get airports';
-        SuccessResponse.data = airport;
+        const Flight = await FlightService.getFlights();
+        console.log('airports---------'+Flight);
+        SuccessResponse.message = 'successfully get Flights';
+        SuccessResponse.data = Flight;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     } catch (error) {
         console.log('airport error---------------------'+error);
-        ErrorReaponse.message = 'Something went wrong while get airports';
+        ErrorReaponse.message = 'Something went wrong while get Flights';
         ErrorReaponse.error = error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
@@ -56,12 +63,12 @@ async function getFlights(req, res) {
 async function getFlight(req, res) {
 
     try {
-        const airport = await FlightService.getFlight(req.params.id);
-        SuccessResponse.message = 'successfully get airport';
-        SuccessResponse.data = airport;
+        const Flight = await FlightService.getFlight(req.params.id);
+        SuccessResponse.message = 'successfully get Flight';
+        SuccessResponse.data = Flight;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     } catch (error) {
-        ErrorReaponse.message = 'Something went wrong while get airport';
+        ErrorReaponse.message = 'Something went wrong while get Flight';
         ErrorReaponse.error = error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
@@ -75,12 +82,12 @@ async function getFlight(req, res) {
 async function distroyFlight(req, res) {
 
     try {
-        const airport = await FlightService.destroyFlight(req.params.id);
-        SuccessResponse.message = 'successfully distroy airport';
-        SuccessResponse.data = airport;
+        const Flight = await FlightService.destroyFlight(req.params.id);
+        SuccessResponse.message = 'successfully distroy Flight';
+        SuccessResponse.data = Flight;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     } catch (error) {
-        ErrorReaponse.message = 'Something went wrong while distroy airport';
+        ErrorReaponse.message = 'Something went wrong while distroy Flight';
         ErrorReaponse.error = error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
@@ -96,17 +103,22 @@ async function distroyFlight(req, res) {
 async function updateFlight(req, res) {
 
     try {
-        const airport = await FlightService.updateFlight(req.params.id, {
-            name: req.body.name,
-            code: req.body.code,
-            address: req.body.address,
-            cityId: req.body.cityId,
+        const Flight = await FlightService.updateFlight(req.params.id, {
+            flightNumber:req.body.flightNumber,
+            airplaneId:req.body.airplaneId,
+            departureAirportId:req.body.departureAirportId,
+            arrivalAirportId:req.body.arrivalAirportId,
+            arrivalTime:req.body.arrivalTime,
+            departureTime:req.body.departureTime,
+            price:req.body.price,
+            boardingGate:req.body.boardingGate,
+            totalSeats:req.body.totalSeats,
         });
-        SuccessResponse.message = 'successfully update airport';
-        SuccessResponse.data = await FlightService.getAirport(req.params.id);
+        SuccessResponse.message = 'successfully update Flight';
+        SuccessResponse.data = Flight;
         return res.status(StatusCodes.CREATED).json(SuccessResponse)
     } catch (error) {
-        ErrorReaponse.message = 'Something went wrong while update airport';
+        ErrorReaponse.message = 'Something went wrong while update Flight';
         ErrorReaponse.error = error;
         return res.status(error.statusCode).json(ErrorReaponse);
     }
