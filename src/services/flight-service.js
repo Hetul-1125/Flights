@@ -1,10 +1,11 @@
 const { FlightsRepositry } = require('../repositary')
 const { AppError } = require('../util/error/app-error');
 const { StatusCodes } = require('http-status-codes');
-const {compareTime}=require('../util/helpers/datetime-helper')
+const {compareTime}=require('../util/helpers/datetime-helper');
+const {Op}=require('sequelize')
 const flightRepositary = new FlightsRepositry();
-async function createFlight(data) {
-      console.log('data----------------------',data.arrivalTime); 
+const endingTime=" 23:59:00";
+async function createFlight(data) { 
       if(!compareTime(data.arrivalTime,data.departureTime)){
         throw new AppError('ArrivalTime is grater than departureTime so Enter correct Time',StatusCodes.BAD_REQUEST);
       }
@@ -105,4 +106,50 @@ async function updateFlight(id, data) {
         throw error;
     }
 }
-module.exports = {createFlight,getFlights,getFlight,destroyFlight,updateFlight};
+
+async function getAllFlights(query){
+    let customFilter={};
+    let sortFilter={};
+    if(query.trips){
+        [departureAirportId,arrivalAirportId]=query.trips.split('-');
+       customFilter.departureAirportId=departureAirportId;
+        customFilter.arrivalAirportId=arrivalAirportId;
+    }
+    if(query.price){
+        [minPrice,maxPrice]=query.price.split('-');
+        customFilter.price={
+            [Op.between]:[minPrice,(maxPrice==undefined)?200000:maxPrice],
+        }
+
+    }
+    if(query.tripDate){
+        console.log(query.tripDate);
+        customFilter.departureTime={
+            [Op.between]:[query.tripDate,query.tripDate+endingTime],
+        }
+    }
+    if(query.traveller){
+        customFilter.totalSeats={
+            [Op.gte]:[query.traveller],
+        }
+    }
+    if(query.sort){
+        const params=query.sort.split(',');
+        const sortfilers=params.map((param)=>param.split('_'));
+        sortFilter=sortfilers;
+    }
+
+    console.log(customFilter);
+    console.log(sortFilter);
+    try{
+        const flight =await flightRepositary.getAllFlights(customFilter,sortFilter);
+        return flight;
+
+    }catch(error)
+    {
+        throw new AppError('Cannot fetch data of All the flights',StatusCodes.NOT_FOUND)
+    }
+   
+
+}
+module.exports = {createFlight,getFlights,getFlight,destroyFlight,updateFlight,getAllFlights};

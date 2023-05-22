@@ -79,6 +79,26 @@ async function getFlight(req, res) {
  * req-body{}
  */
 
+async function getAllFlights(req, res) {
+
+    try {
+        const Flight = await FlightService.getAllFlights(req.query);
+        SuccessResponse.message = 'successfully get Flight';
+        SuccessResponse.data = Flight;
+        return res.status(StatusCodes.CREATED).json(SuccessResponse)
+    } catch (error) {
+        console.log('error------------------------------------',error);
+        ErrorReaponse.message = 'Something went wrong while get Flight';
+        ErrorReaponse.error = error;
+        return res.status(error.statusCode).json(ErrorReaponse);
+    }
+}
+
+/**
+ * post:/airplanes/:id
+ * req-body{}
+ */
+
 async function distroyFlight(req, res) {
 
     try {
@@ -123,4 +143,4 @@ async function updateFlight(req, res) {
         return res.status(error.statusCode).json(ErrorReaponse);
     }
 }
-module.exports = {createFlight,getFlights,getFlight,distroyFlight,updateFlight }
+module.exports = {createFlight,getFlights,getFlight,distroyFlight,updateFlight,getAllFlights }

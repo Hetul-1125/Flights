@@ -9,9 +9,11 @@ router.post('/',
         FlightController.createFlight);
 
 // api/v1/airplanes GET
+// router.get('/',
+//         FlightController.getFlights);
+        
 router.get('/',
-        FlightController.getFlights);
-
+        FlightController.getAllFlights);
 // api/v1/airplanes/:id POST
 router.get('/:id',
         FlightController.getFlight);
