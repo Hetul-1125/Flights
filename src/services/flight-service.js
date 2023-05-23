@@ -109,7 +109,7 @@ async function updateFlight(id, data) {
 
 async function getAllFlights(query){
     let customFilter={};
-    let sortFilter={};
+    let sortFilter;
     if(query.trips){
         [departureAirportId,arrivalAirportId]=query.trips.split('-');
        customFilter.departureAirportId=departureAirportId;
@@ -147,6 +147,7 @@ async function getAllFlights(query){
 
     }catch(error)
     {
+        console.log(error);
         throw new AppError('Cannot fetch data of All the flights',StatusCodes.NOT_FOUND)
     }
    
